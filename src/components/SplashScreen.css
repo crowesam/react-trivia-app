@@ -1,0 +1,37 @@
+/* SplashScreen.css */
+.video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .video-modal video {
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+  }
+  .splash-screen {
+    display: flex;
+    flex-direction: row;  
+    justify-content:space-around;
+    align-items: center;
+    background: #f8f8f8;
+  }
+  .close-button {
+    /* position: absolute; */
+    top: 20px;
+    right: 20px;
+    background: #ddd;
+    border:5 px solid rgb(61, 33, 9);
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
