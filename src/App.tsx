@@ -1,8 +1,8 @@
 // App.tsx
 import React, { useState } from 'react';
 import SplashScreen from './components/SplashScreen';
-import PokerQuestionSet from './components/PokerQuestionSet';
 import ReactQuestionSet from './components/ReactQuestionSet';
+import PokerQuestionSet from './components/PokerQuestionSet';
 // Import other question sets if needed...
 
 const App: React.FC = () => {
@@ -19,10 +19,11 @@ const App: React.FC = () => {
   // Function to render the selected question set component based on category
   const renderQuestionSet = () => {
     switch (activeCategory) {
-      case "Poker":
-        return <PokerQuestionSet />;
       case "React":
         return <ReactQuestionSet />;
+      case "Poker":
+        return <PokerQuestionSet />;
+      
       // Add other cases here for other categories...
       default:
         return <p className="msg-select-set">Please select a category to start.</p>;
@@ -36,8 +37,8 @@ const App: React.FC = () => {
         <>
           <SplashScreen />
           <nav>
-            <button onClick={() => handleStartGame("Poker")}>Poker</button>
             <button onClick={() => handleStartGame("React")}>React</button>
+            <button onClick={() => handleStartGame("Poker")}>Poker</button>
             {/* Add buttons for additional categories */}
           </nav>
         </>
