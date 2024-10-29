@@ -1,61 +1,86 @@
-// App.tsx
+// src/App.tsx
 import React, { useState } from 'react';
-import SplashScreen from './components/SplashScreen';
-import ReactQuestionSet from './components/ReactQuestionSet';
-import NextJSQuestionSet from './components/NextJSQuestionSet';
-import PokerQuestionSet from './components/PokerQuestionSet';
-// Import other question sets if needed...
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Trivia from './components/Trivia';
+import QuestionCreator from './components/QuestionCreator';
+import CustomQuestionPage from './components/CustomQuestionPage'; // Import your new component
+
+interface Question {
+  question: string;
+  answers: string[];
+  correctAnswer: string;
+}
 
 const App: React.FC = () => {
-  // State to manage which game category is active
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  // State to manage the list of all question sets and custom question sets
+  const [customQuestions, setCustomQuestions] = useState<{ category: string; questions: Question[] }[]>([]);
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-  // Handler to start a game based on the selected category
-  const handleStartGame = (category: string) => {
-    setActiveCategory(category);
-    setIsGameStarted(true);
+  // Function to add a new custom question set from the user
+  const handleAddCustomQuestionSet = (category: string, newQuestions: Question[]) => {
+    setCustomQuestions((prev) => [...prev, { category, questions: newQuestions }]);
   };
 
-  // Function to render the selected question set component based on category
+  // Function to render the selected question set
   const renderQuestionSet = () => {
-    switch (activeCategory) {
-      case "React":
-        return <ReactQuestionSet />;
-        case "NextJS":
-        return <NextJSQuestionSet />;
-        case "Poker":
-        return <PokerQuestionSet />;
-      
-      // Add other cases here for other categories...
-      default:
-        return <p className="msg-select-set">Please select a category to start.</p>;
+    if (activeCategory) {
+      const selectedSet = customQuestions.find((set) => set.category === activeCategory);
+      if (selectedSet) {
+        return <Trivia questions={selectedSet.questions} category={activeCategory} />;
+      }
     }
+    return <p>Please select a category to start.</p>;
   };
 
   return (
-    <div className="app">
-      {/* Navigation section to select categories */}
-      {!isGameStarted && (
-        <>
-          <SplashScreen />
+    <Router>
+      <div className="app-container">
+        {/* Header Section */}
+        <header className="app-header">
+          <h1>Trivia App</h1>
           <nav>
-            <button onClick={() => handleStartGame("React")}>React</button>
-            <button onClick={() => handleStartGame("NextJS")}>NextJS</button>
-            <button onClick={() => handleStartGame("Poker")}>Poker</button>
-            {/* Add buttons for additional categories */}
+            <Link to="/">Home</Link>
+            <Link to="/create">Create Custom Questions</Link>
           </nav>
-        </>
-      )}
+        </header>
 
-      {/* Trivia game content based on the selected category */}
-      {isGameStarted && renderQuestionSet()}
-
-      {/* Restart or go back to the main screen button */}
-      {isGameStarted && (
-        <button onClick={() => setIsGameStarted(false)}>Go Back</button>
-      )}
-    </div>
+        {/* Routes for different pages */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="main-body">
+                <div className="content">
+                  {/* List of original categories as buttons */}
+                  <h2>Categories</h2>
+                  <button onClick={() => setActiveCategory("Next.js")}>Next.js</button>
+                  {/* Add dynamic buttons for custom categories */}
+                  {customQuestions.map((set, index) => (
+                    <button key={index} onClick={() => setActiveCategory(set.category)}>
+                      {set.category}
+                    </button>
+                  ))}
+                  {/* Render the selected question set */}
+                  {isGameStarted && renderQuestionSet()}
+                </div>
+                <aside className="right-sidebar">
+                  <h2>Quick Links</h2>
+                  {/* Sidebar content */}
+                </aside>
+                <button onClick={() => setIsGameStarted(!isGameStarted)}>
+                  {isGameStarted ? "Stop Game" : "Start Game"}
+                </button>
+              </div>
+            }
+          />
+          <Route
+            path="/create"
+            element={<CustomQuestionPage onAddQuestionSet={handleAddCustomQuestionSet} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

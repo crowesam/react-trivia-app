@@ -152,6 +152,33 @@ button:focus-visible {
   border-top: 1px solid #ddd;
   border-radius: 0 0 12px 12px;
 }
+.question-creator {
+  margin-bottom: 20px;
+}
+
+.question-creator form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question-creator label {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-creator button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.question-creator button:hover {
+  background-color: #0056b3;
+}
 
 
 @media (prefers-color-scheme: light) {
