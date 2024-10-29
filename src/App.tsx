@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import SplashScreen from './components/SplashScreen';
 import ReactQuestionSet from './components/ReactQuestionSet';
+import NextJSQuestionSet from './components/NextJSQuestionSet';
 import PokerQuestionSet from './components/PokerQuestionSet';
 // Import other question sets if needed...
 
@@ -21,7 +22,9 @@ const App: React.FC = () => {
     switch (activeCategory) {
       case "React":
         return <ReactQuestionSet />;
-      case "Poker":
+        case "NextJS":
+        return <NextJSQuestionSet />;
+        case "Poker":
         return <PokerQuestionSet />;
       
       // Add other cases here for other categories...
@@ -38,6 +41,7 @@ const App: React.FC = () => {
           <SplashScreen />
           <nav>
             <button onClick={() => handleStartGame("React")}>React</button>
+            <button onClick={() => handleStartGame("NextJS")}>NextJS</button>
             <button onClick={() => handleStartGame("Poker")}>Poker</button>
             {/* Add buttons for additional categories */}
           </nav>
