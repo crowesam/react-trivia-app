@@ -1,5 +1,5 @@
 // QuestionSet.tsx
-import React from 'react';
+
 import Trivia from './Trivia';
 
 const NextJSQuestionSet: NextJS.FC = () => {
